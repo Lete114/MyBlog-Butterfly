@@ -1,0 +1,265 @@
+#vcomment *{
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 1.75;
+}
+
+.emoji .iconfont{
+    font-size: 25px;
+}
+
+#vcomment{
+    font-size: 16px;
+    text-align: left;
+}
+
+.vwrap{
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    position: relative;
+    padding: 10px;
+    margin: 30px 0 30px 0;
+    box-shadow: 2px 2px 5px #bbb;
+    background: rgba(255,255,255,.3);
+}
+
+.vwrap .vheader .vinput{
+    width: 33.33%;
+    border-bottom: 1px dashed #777 !important;
+}
+.vwrap input{
+    background: transparent;
+}
+
+#vcomment .vinput{
+    border: none;
+    outline: none;
+    padding: 10px 5px;
+    max-width: 100%;
+    font-size: .775em;
+}
+
+.vheader{
+    display: flex;
+}
+
+.vedit textarea{
+    overflow: hidden;
+    overflow-wrap: break-word;
+    resize: vertical;
+    height: 122px;
+    width: 100%;
+}
+
+#vcomment .vrow{
+    font-size: 0;
+    padding: 10px 0;
+}
+
+#vcomment .text-right{
+    text-align: right;
+}
+
+#vcomment .vrow .vcol {
+    vertical-align: middle;
+    font-size: 14px;
+}
+#vcomment button{
+    font-size: .7rem;
+    background-color: #e58a8a;
+    padding: .3rem .8rem;
+    border-radius: .3em;
+}
+
+#vcomment .vempty{
+    padding: 1.25em;
+    text-align: center;
+    color: #555;
+    overflow: auto;
+}
+
+#vcomment .vcount{
+    padding: 5px;
+    font-weight: 600;
+    font-size: 1.25em;
+}
+
+#vcomment .vcards .vcard{
+    padding-top: 1.25em;
+    position: relative;
+    display: block;
+}
+.vcard{
+    box-shadow: 2px 2px 5px #bbb;
+    background: rgba(255,255,255,.3);
+    border-radius: 8px;
+    padding: 30px;
+    margin: 30px 0 0 0;
+}
+
+.vcards .vcard .vimg{
+    width: 3.125em;
+    height: 3.125em;
+    float: left;
+    border-radius: 50%;
+    margin-right: .7525em;
+    border: 1px solid #f5f5f5;
+    padding: .125em;
+}
+
+.vcards .vcard .vhead .vnick{
+    color: #1abc9c;
+    position: relative;
+    font-size: .875em;
+    font-weight: 500;
+    margin-right: .4em;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.vtag.vvisitor{
+    background: #828282;
+    font-size: 12px;
+    display: inline-block;
+    line-height: 20px;
+    border-radius: 2px;
+    color: #fff;
+    padding: 0 5px;
+    position: inherit;
+}
+
+.vcards .vcard .vh .vtime {
+    font-size: .75em;
+    margin-right: .875em;
+}
+.vcards .vcard .vh .vmeta .vat{
+    padding: 0 0.8rem;
+    border: 1px solid #e58a8a;
+    border-radius: 5px;
+    color: #e58a8a;
+    font-size: 0.7125rem;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    float: right;
+}
+.vcards .vcard .vcontent{
+    word-wrap: break-word;
+    word-break: break-all;
+    font-size: .875em;
+    line-height: 2;
+    position: relative;
+    margin-bottom: .75em;
+    padding-top: .625em;
+}
+
+.vcards .vcard .vh{
+    overflow: hidden;
+    padding-bottom: .5em;
+    border-bottom: 1px dashed #f5f5f5;
+}
+.vquote .vcard{
+    box-shadow: none;
+}
+
+.vtag.vmaster{
+    background: #ffa51e;
+}
+
+.vtag {
+    font-size: 12px;
+    display: inline-block;
+    line-height: 20px;
+    border-radius: 2px;
+    color: #fff;
+    padding: 0 5px;
+    position: inherit;
+}
+
+.vquote .vcard{
+    padding-right: 0;
+}
+
+.vcards .vcard .vquote{
+    padding-left: 1em;
+    border-left: 1px dashed hsla(0,0%,50%,.5);
+}
+.cancel-reply.text-right{
+    margin: 0;
+    display: none;
+}
+.cancel-reply.text-right i{
+    font-size: 25px;
+}
+
+.vcol.vcol-60.status-bar{
+    position: absolute;
+    bottom: 58px;
+    width: 100%;
+    color: red;
+    text-align: center;
+    font-weight: 600;
+}
+
+/*emojis*/
+.vwrap .vemojis{
+    display: none;
+    font-size: 18px;
+    max-height: 145px;
+    overflow: auto;
+    padding-bottom: 10px;
+    -webkit-box-shadow: 0 0 1px #f0f0f0;
+    box-shadow: 0 0 1px #f0f0f0;
+}
+.vwrap .vemojis i{
+    font-style: normal;
+    padding-top: 7px;
+    width: 36px;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+}
+.vemoji{
+    max-width: 25px;
+    vertical-align: middle;
+    margin: 0 1px;
+    display: inline-block !important;
+}
+.iconfont.icon-xiaolian:hover,.iconfont.icon-yulan:hover{
+    cursor: pointer;
+}
+.iconfont.icon-xiaolian.active,.iconfont.icon-yulan.active{
+    color: #66b1ff;
+}
+
+/*验证码*/
+.verifyCode{
+    height: 32px;
+    line-height: 32px;
+    -webkit-appearance: none;
+    background-color: #FFF;
+    background-image: none;
+    border-radius: 4px;
+    border: 1px solid #DCDFE6;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    /*height: 40px;*/
+    /*line-height: 40px;*/
+    outline: 0;
+    padding: 0 15px;
+    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    width:80%;
+    margin-top: 10px;
+}
+.swal-text,.swal-text .verifyCode{
+   text-align: center !important;
+}

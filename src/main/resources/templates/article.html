@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{public::head(${blog.getBlogTitle()}+' | '+${user.getAuthor()},${blog.getDescription()},${user.getAuthor()},${user.getFavicon()},${user.getAvatar()})}"></head>
+
+<body>
+<div th:replace="~{public::mobile(${user.getAvatar()},${blogCount},${tagCount},${categoriesCount})}"></div>
+<div id="body-wrap">
+ <div id="web_bg" th:style="'background:'+${user.getBackground()}+';background-attachment: local; background-position: center; -webkit-background-size: cover; -moz-background-size: cover; background-size: cover; background-repeat: no-repeat;'" data-type="photo"></div>
+ <header th:replace="~{public::page-header(${user.getTitle()})}" class="post-bg" id="page-header"></header>
+ <main class="layout_post" id="content-inner">
+  <article id="post">
+   <div id="post-info">
+    <div id="post-title">
+     <div class="posttitle" th:text="${blog.getBlogTitle()}"></div>
+    </div>
+    <div id="post-meta">
+     <div class="meta-firstline">
+      <span class="post-meta-date">
+       <i class="far fa-calendar-alt fa-fw post-meta-icon"></i>
+       <span class="post-meta-label">发表于</span>
+       <time class="post-meta-date-created"
+             th:title="'发表于 '+${#dates.format(blog.getCreateTime(),'yyyy-MM-dd')}"
+             th:text="${#dates.format(blog.getCreateTime(),'yyyy-MM-dd')}"></time>
+       <span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i>
+       <span class="post-meta-label">更新于</span>
+       <time class="post-meta-date-updated"
+             th:title="'更新于 '+${#dates.format(blog.getUpdateTime(),'yyyy-MM-dd')}"
+             th:text="${#dates.format(blog.getUpdateTime(),'yyyy-MM-dd')}"></time>
+       <span class="post-meta-categories">
+
+        <span class="post-meta-separator">|</span>
+        <i class="fas fa-inbox fa-fw post-meta-icon"></i>
+        <a class="post-meta-categories" style="color: #4c4948"
+           th:href="'/categories/'+${blog.getBlogCategoryName()}" th:text="${blog.getBlogCategoryName()}"></a>
+       </span>
+      </span>
+     </div>
+     <div class="meta-secondline">
+      <span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span>
+      <span class="post-meta-separator">|</span>
+      <span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv">504752</span></span>
+     </div>
+    </div>
+    <div id="x-hr"></div>
+   </div>
+   <div class="post-content" id="article-container">
+    <textarea id="markdown" style="display:none;"></textarea>
+   </div>
+   <div class="post-copyright">
+    <div class="post-copyright__author">
+     <span class="post-copyright-meta">文章作者: </span>
+     <span class="post-copyright-info"><a th:text="${user.getAuthor()}"></a></span>
+    </div>
+    <div class="post-copyright__type">
+     <span class="post-copyright-meta">文章链接: </span>
+     <span class="post-copyright-info"><a th:href="${#httpServletRequest.requestURL}" th:text="${#httpServletRequest.requestURL}"></a></span>
+    </div>
+    <div class="post-copyright__notice">
+     <span class="post-copyright-meta">版权声明: </span>
+     <span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()}" target="_blank" th:text="${user.getTitle()}">Lete乐特 's Blog</a>！</span>
+    </div>
+   </div>
+   <div class="tag_share">
+    <div class="post-meta__tag-list">
+     <th:block th:each="tag:${#strings.arraySplit(blog.getBlogTags(), ',')}">
+      <a class="post-meta__tags" th:href="'/tags/'+${tag}" th:text="${tag}"></a>
+     </th:block>
+    </div>
+    <div class="post_share">
+     <div class="social-share" data-image="https://cdn.jsdelivr.net/gh/lete114/CDN@3.0/BoBoPic/12.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" />
+     <script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer=""></script>
+    </div>
+   </div>
+   <div class="post-reward">
+    <div class="reward-button">
+     <i class="fas fa-qrcode"></i> 打赏
+     <div class="reward-main">
+      <ul class="reward-all">
+       <li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/lete114/CDN@2.0/Use/wzf.png" target="_blank"><img class="post-qr-code-img" data-lazy-src="https://cdn.jsdelivr.net/gh/lete114/CDN@2.0/Use/wzf.png" alt="微信" /></a>
+        <div class="post-qr-code-desc">
+         微信
+        </div></li>
+       <li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/lete114/CDN@2.0/Use/zfb.png" target="_blank"><img class="post-qr-code-img" data-lazy-src="https://cdn.jsdelivr.net/gh/lete114/CDN@2.0/Use/zfb.png" alt="支付宝" /></a>
+        <div class="post-qr-code-desc">
+         支付宝
+        </div></li>
+      </ul>
+     </div>
+    </div>
+   </div>
+   <nav class="pagination-post" id="pagination">
+    <div class="prev-post pull-left" th:if="${prev}!=null" th:style="${next}==null?'width: 100%':'width: 50%'">
+     <a th:href="'/article/'+${prev.getBlogSubUrl()}"><img class="prev-cover" th:data-lazy-src="${prev.getBlogCoverImage()}" />
+      <div class="pagination-info">
+       <div class="label">
+        上一篇
+       </div>
+       <div class="prev_info" th:text="${prev.getBlogTitle()}"></div>
+      </div></a>
+    </div>
+    <div class="next-post pull-right" th:if="${next}!=null" th:style="${prev}==null?'width: 100%':'width: 50%'">
+     <a th:href="'/article/'+${next.getBlogSubUrl()}"><img class="next-cover" th:data-lazy-src="${next.getBlogCoverImage()}" />
+      <div class="pagination-info">
+       <div class="label">
+        下一篇
+       </div>
+       <div class="next_info" th:text="${next.getBlogTitle()}"></div>
+      </div></a>
+    </div>
+   </nav>
+   <hr />
+   <link rel="stylesheet" href="/font/comment.css">
+   <link rel="stylesheet" href="/css/Comment.css">
+   <input type="hidden" id="blogId" th:value="${blog.getBlogId()}">
+   <div id="post-comment">
+    <div class="comment-head">
+     <div class="comment-headline">
+      <i class="fas fa-comments fa-fw"></i>
+      <span> 评论</span>
+     </div>
+    </div>
+    <div class="comment-wrap">
+     <div>
+      <div class="vcomment v" id="vcomment">
+       <div class="vpanel">
+       </div>
+       <div class="vcount" style="display: block; color: #e58a8a;">
+        <span class="vnum" th:text="${count}"></span> 评论</div>
+       <div class="vcards">
+        <th:block th:each="comments:${commentsf}">
+         <div class="vcard">
+          <!--判断是否是博主邮箱头像地址true==显示博主头像false==使用api转换头像  昵称、子评论、子评论一致-->
+          <img class="vimg lazyload"
+               src="/img/loading.gif"
+               th:data-img="${comments.getEmail()}==${user.getEmail()}?${user.getAvatar()}:${comments.getEmail()}"
+               referrerpolicy="no-referrer">
+          <div class="vh">
+           <div class="vhead">
+            <a class="vnick" rel="nofollow" th:href="${comments.getLink()}" target="_blank" th:text="${comments.getEmail()}==${user.getEmail()}?${user.getAuthor()}:${comments.getNick()}"></a>
+            <span th:class="${comments.getEmail()}==${user.getEmail()}?'vtag vmaster':'vtag vvisitor'" th:text="${comments.getEmail()}==${user.getEmail()}?'博主':'访客'"></span>
+           </div>
+           <div class="vmeta">
+            <span style="color: #828282;" class="vtime" th:text="${#dates.format(comments.getCreateTime(),'yyyy-MM-dd HH:mm')}"></span>
+            <span class="vat" th:value="${comments.getCommentId()}">回复</span>
+           </div>
+           <div class="vcontent" data-expand="查看更多..." th:utext="${comments.getContent()}">
+           </div>
+           <div class="vreply-wrapper"></div>
+           <!--子评论循环-->
+           <th:block th:each="commentsz:${commentsz}">
+            <div class="vquote" th:if="${commentsz.getIsReply()}==${comments.getCommentId()}" ><!--判断子回复是否与父id一致-->
+             <div class="vcard">
+              <img class="vimg lazyload"
+                   src="/img/loading.gif"
+                   th:data-img="${commentsz.getEmail()}==${user.getEmail()}?${user.getAvatar()}:${commentsz.getEmail()}"
+                   referrerpolicy="no-referrer">
+              <div class="vh">
+               <div class="vhead">
+                <a class="vnick" th:href="${commentsz.getLink()}" th:text="${commentsz.getEmail()}==${user.getEmail()}?${user.getAuthor()}:${commentsz.getNick()}"></a>
+                <span th:class="${commentsz.getEmail()}==${user.getEmail()}?'vtag vmaster':'vtag vvisitor'" th:text="${commentsz.getEmail()}==${user.getEmail()}?'博主':'访客'"></span>
+
+               </div>
+               <div class="vmeta">
+                <span style="color: #828282;" class="vtime"th:text="${#dates.format(commentsz.getCreateTime(),'yyyy-MM-dd HH:mm')}"></span>
+                <span class="vat" th:value="${comments.getCommentId()}">回复</span>
+               </div>
+               <div class="vcontent" data-expand="查看更多..." th:utext="${commentsz.getContent()}"></div>
+               <div class="vreply-wrapper"></div>
+              </div>
+             </div>
+            </div>
+           </th:block>
+          </div>
+         </div>
+        </th:block>
+       </div>
+       <div class="vload-top text-center" style="display:none;">
+        <i class="vspinner" style="width:30px;height:30px;"></i>
+       </div>
+       <div class="vcards"></div>
+       <div class="vload-bottom text-center" style="display:none;">
+        <i class="vspinner" style="width:30px;height:30px;"></i>
+       </div>
+       <div class="vempty" style="display: block;">
+        来发评论吧~
+       </div>
+       <div class="vpage txt-center" style="display:none">
+        <button type="button" class="vmore vbtn">加载更多...</button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </article>
+  <script data-pjax src="/js/showdown.min.js"></script>
+  <script data-pjax src="/js/article.js"></script>
+ </main>
+ <footer th:replace="~{public::footer(${date},${user.getAuthor()},${user.getIcp()})}"></footer>
+</div>
+<section id="rightside">
+ <div id="rightside-config-hide">
+  <button id="font_plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button>
+  <button id="font_minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button>
+  <button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button>
+ </div>
+ <div id="rightside-config-show">
+  <button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button>
+  <a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a>
+  <!--<button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button>-->
+  <button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button>
+  <script>
+   $("#go-up").click(function () {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+   })
+  </script>
+ </div>
+</section>
+<div th:replace="~{public::search}"></div>
+<div id="search-mask"></div>
+<th:block th:replace="~{public::pjax}"></th:block>
+</body>
+</html>

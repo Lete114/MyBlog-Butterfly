@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lete114.mapper.UserMapper">
+    <!--查询全部信息-->
+    <select id="selUser" resultType="top.lete114.entity.User">
+        select * from user
+    </select>
+
+    <!--修改网站信息-->
+    <update id="ModifyWebSite" parameterType="top.lete114.entity.User">
+        UPDATE USER SET
+        title=#{title},
+        background=#{background},
+        subtitle=#{subtitle},
+        description=#{description},
+        favicon=#{favicon},
+        running_time=#{running_time},
+        notice=#{notice}
+    </update>
+
+    <!--修改个人信息-->
+    <update id="ModifyPerson" parameterType="top.lete114.entity.User">
+        UPDATE USER SET
+        avatar=#{avatar},
+        author=#{author},
+        email=#{email},
+        icp=#{icp}
+    </update>
+
+    <!--修改基本信息-->
+    <update id="ModifyBasic" parameterType="top.lete114.entity.User">
+        UPDATE USER SET
+        name=#{name},
+        author=#{author}
+    </update>
+
+    <!--修改基本信息-->
+    <update id="ModifyPassword" parameterType="top.lete114.entity.User">
+        UPDATE USER SET
+        password=#{password}
+    </update>
+
+    <!--修改基本信息-->
+    <update id="saveAbout">
+        UPDATE USER SET
+        about=#{about}
+    </update>
+
+</mapper>

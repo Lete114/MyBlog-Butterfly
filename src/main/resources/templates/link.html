@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{public::head('友链 | '+${user.getAuthor()},${user.getDescription()},${user.getAuthor()},${user.getFavicon()},${user.getAvatar()})}"></head>
+<body>
+<div th:replace="~{public::mobile(${user.getAvatar()},${blogCount},${tagCount},${categoriesCount})}"></div>
+<div id="body-wrap">
+        <div id="web_bg" th:style="'background:'+${user.getBackground()}+';background-attachment: local; background-position: center; -webkit-background-size: cover; -moz-background-size: cover; background-size: cover; background-repeat: no-repeat;'" data-type="photo"></div>
+    <header th:replace="~{public::page-header(${user.getTitle()})}" class="post-bg" id="page-header"></header>
+    <main class="layout_page hide-aside" id="content-inner">
+        <div id="page">
+            <div class="flink" id="article-container"><h2>友情链接</h2>
+                <div class="flink-list">
+                    <div class="flink-list-item" th:each="link:${list}">
+                        <a  th:href="${link.getLinkUrl()}" th:title="${link.getLinkName()}" target="_blank">
+                            <img
+                            th:data-lazy-src="${link.getAvatar()}"
+                            th:alt="${link.getLinkName()}">
+                            <span class="flink-item-name" th:text="${link.getLinkName()}"></span>
+                            <span class="flink-item-desc"
+                                  th:title="${link.getLinkDescription()}"
+                                    th:text="${link.getLinkDescription()}"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{public::footer(${date},${user.getAuthor()},${user.getIcp()})}"></footer>
+</div>
+<th:block th:replace="~{public::section}"></th:block>
+<div th:replace="~{public::search}"></div>
+<div id="search-mask"></div>
+<th:block th:replace="~{public::pjax}"></th:block>
+</body>
+</html>

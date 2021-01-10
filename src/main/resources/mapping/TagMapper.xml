@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lete114.mapper.TagMapper">
+
+    <!--查询全部信息-->
+    <select id="selTag" resultType="Tag">
+        select * from tag
+    </select>
+    
+    <!--根据标签查询模糊查询文章-->
+    <select id="likeByTagName" resultType="Blog">
+        select * from blog
+        <if test="tagName!=null and tagName!=''">
+            where blogTags like CONCAT('%',#{tagName},'%' )
+        </if>
+    </select>
+
+    <!--查询全部信息 and 分页 and 排序-->
+    <select id="findTagList" parameterType="java.util.Map" resultType="top.lete114.entity.Tag">
+        select *
+        from tag
+        order by tagId
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <!--添加标签(循环添加多个)-->
+    <insert id="batchInsertBlogTag" parameterType="java.util.List" useGeneratedKeys="true"
+            keyProperty="tagId">
+        INSERT into tag(tagName,createTime)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.tagName,jdbcType=VARCHAR},#{item.createTime})
+        </foreach>
+    </insert>
+
+    <select id="selectByTagName" parameterType="java.lang.String" resultType="top.lete114.entity.Tag">
+        select *
+        from tag
+        <if test="tagName!=null and tagName!=''">
+            where tagName = #{tagName,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <insert id="insertSelective" parameterType="top.lete114.entity.Tag">
+        insert into tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tagId != null">
+                tagId,
+            </if>
+            <if test="tagName != null">
+                tagName,
+            </if>
+            <if test="createTime != null">
+                createTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tagId != null">
+                #{tagId,jdbcType=INTEGER},
+            </if>
+            <if test="tagName != null">
+                #{tagName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <select id="getTotalTags" parameterType="Map" resultType="int">
+    select count(*)  from tag
+  </select>
+
+
+    <delete id="deleteBatch">
+        delete from tag where tagId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

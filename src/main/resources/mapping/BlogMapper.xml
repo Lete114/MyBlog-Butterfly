@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lete114.mapper.BlogMapper">
+
+    <!--添加(写)文章-->
+    <insert id="saveBlog" parameterType="top.lete114.entity.Blog">
+        insert into blog(blogTitle,blogTags,
+        blogSubUrl,blogCategoryId,blogContent,
+        blogCoverImage,blogStatus,enableComment,
+        blogCategoryName,createTime,updateTime,description)
+        values(#{blogTitle},#{blogTags},#{blogSubUrl},#{blogCategoryId},
+        #{blogContent},#{blogCoverImage},#{blogStatus},#{enableComment},
+        #{blogCategoryName},#{createTime},#{updateTime},#{description})
+    </insert>
+
+    <!--修改文章-->
+    <update id="ModifyArticle" parameterType="top.lete114.entity.Blog">
+        UPDATE blog SET
+        blogTitle=#{blogTitle},
+        blogSubUrl=#{blogSubUrl},
+        blogCoverImage=#{blogCoverImage},
+        blogContent=#{blogContent},
+        blogCategoryId=#{blogCategoryId},
+        blogCategoryName=#{blogCategoryName},
+        blogTags=#{blogTags},
+        blogStatus=#{blogStatus},
+        updateTime=#{updateTime},
+        description=#{description}
+        where blogId=#{blogId}
+    </update>
+    
+    <!--上一篇文章-->
+    <select id="prev" resultType="top.lete114.entity.Blog">
+        SELECT * FROM blog WHERE blogStatus = 1 AND #{createTime} &lt; createTime ORDER BY createTime DESC LIMIT 1
+    </select>
+    
+    <!--下一篇文章-->
+    <select id="next" resultType="top.lete114.entity.Blog">
+        SELECT * FROM blog WHERE blogStatus = 1 AND #{createTime} &gt; createTime ORDER BY createTime DESC LIMIT 1
+    </select>
+
+    <!--查询全部信息-->
+    <select id="selBlog" resultType="top.lete114.entity.Blog">
+        SELECT * FROM blog
+        WHERE blogStatus =1
+        ORDER BY createTime desc
+    </select>
+
+    <!--根据时间创建时间排序-->
+    <select id="selBlogTime" resultType="Blog">
+        SELECT * FROM blog
+        ORDER BY createTime
+    </select>
+    <!--根据id查询-->
+    <select id="BlogById" resultType="top.lete114.entity.Blog">
+        select * from blog where blogId=#{id}
+    </select>
+
+
+    <!--查询记录数-->
+    <select id="getTotalBlogs" parameterType="Map" resultType="int">
+        select count(*) from blog
+        where 1=1
+        <if test="keyword!=null">
+            AND (blogTitle like CONCAT('%',#{keyword},'%' ) or blogCategoryName like CONCAT('%',#{keyword},'%' ))
+        </if>
+        <if test="blogStatus!=null">
+            AND blog_status = #{blogStatus}
+        </if>
+        <if test="blogCategoryId!=null">
+            AND blogCategoryId = #{blogCategoryId}
+        </if>
+    </select>
+
+    <!--删除文章-->
+    <delete id="deleteBatch">
+
+        delete from blog where BlogId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--查询博客全部信息-->
+    <select id="findBlogList" parameterType="java.util.Map" resultType="top.lete114.entity.Blog">
+        select *
+        from blog
+        where 1=1
+        <if test="keyword!=null">
+            AND (blogTitle like CONCAT('%',#{keyword},'%' ) or blogCategoryName like CONCAT('%',#{keyword},'%' ))
+        </if>
+        <if test="blogStatus!=null">
+            AND blogStatus = #{blogStatus}
+        </if>
+        <if test="blogCategoryId!=null">
+            AND blogCategoryId = #{blogCategoryId}
+        </if>
+        order by blogId desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <!--当分类被删除后Blog分类id为0分类name为""(null)-->
+    <update id="updateBlogCategorys">
+        update blog
+        set blogCategoryId = #{categoryId,jdbcType=INTEGER},
+        blogCategoryName = #{categoryName,jdbcType=VARCHAR}
+        where blogCategoryId in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="BlogByName" resultType="Blog" parameterType="String">
+        select * from blog where blogSubUrl=#{url}
+    </select>
+</mapper>

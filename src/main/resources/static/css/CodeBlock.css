@@ -1,0 +1,166 @@
+/*行数*/
+pre.linenums li{
+    list-style-type: decimal;
+}
+
+.pln {
+    color: #ff5370;
+}
+
+/* plain text */
+@media screen {
+    .str {
+        color: #c3e88d;
+    }
+
+    /* string content */
+    .kwd {
+        color: #89ddff;
+    }
+
+    /* a keyword */
+    .com {
+        color: #969896;
+    }
+
+    /* a comment */
+    .typ {
+        color: #4fc1e9;
+    }
+
+    /* a type name */
+    .lit {
+        color: #89ddff;
+    }
+
+    /* a literal value */
+    /* punctuation, lisp open bracket, lisp close bracket */
+    .pun, .opn, .clo {
+        color: #eff;
+    }
+
+    .tag {
+        color: #ed5565;
+    }
+
+    /* a markup tag name */
+    .atn {
+        color: #a0d468;
+    }
+
+    /* a markup attribute name */
+    .atv {
+        color: #ffce54;
+    }
+
+    /* a markup attribute value */
+    .dec, .var {
+        color: #ac92ec;
+    }
+
+    /* a declaration; a variable name */
+    .fun {
+        color: #e6e9ed;
+    }
+
+    /* a function name */
+}
+
+/*
+
+
+!* Custom - INLOJV *!
+.prettyprint.linenums {
+    padding: 10px 8px;
+    background-size: 100% 22px;
+    box-shadow: inset 40px 0 0 #2B3A46, inset 41px 0 0 #2F3640;
+    -moz-box-shadow: inset 40px 0 0 #2B3A46, inset 41px 0 0 #2F3640;
+    -webkit-box-shadow: inset 40px 0 0 #2B3A46, inset 41px 0 0 #2F3640;
+}
+
+!* prettyprint *!
+!*! Color themes for Google Code Prettify | MIT License |
+github.com/jmblog/color-themes-for-google-code-prettify
+https://jmblog.github.io/color-themes-for-google-code-prettify/
+*!
+.prettyprint {
+    background: #2f3640;
+    font-family: Play,Menlo,Bitstream Vera Sans Mono,DejaVu Sans Mono,Monaco,Consolas,monospace;
+    border: 0!important
+}
+
+.pln {
+    color: #e6e9ed
+}
+
+ol.linenums {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #656d78
+}
+
+li.L0,li.L1,li.L2,li.L3,li.L4,li.L5,li.L6,li.L7,li.L8,li.L9 {
+    padding-left: 1em;
+    background-color: #2f3640;
+    list-style-type: decimal
+}
+
+@media screen {
+    .str {
+        color: #ffce54
+    }
+
+    .kwd {
+        color: #4fc1e9
+    }
+
+    .com {
+        color: #656d78
+    }
+
+    .typ {
+        color: #4fc1e9
+    }
+
+    .lit {
+        color: #ac92ec
+    }
+
+    .pun {
+        color: #e6e9ed
+    }
+
+    .opn {
+        color: #e6e9ed
+    }
+
+    .clo {
+        color: #e6e9ed
+    }
+
+    .tag {
+        color: #ed5565
+    }
+
+    .atn {
+        color: #a0d468
+    }
+
+    .atv {
+        color: #ffce54
+    }
+
+    .dec {
+        color: #ac92ec
+    }
+
+    .var {
+        color: #e6e9ed
+    }
+
+    .fun {
+        color: #e6e9ed
+    }
+}
+*/
+

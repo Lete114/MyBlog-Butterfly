@@ -1,0 +1,5 @@
+$.getScript("/admin/plugins/sweetalert/sweetalert.min.js")
+$.getScript("/js/MarkDown.js")
+$.getScript("/js/lazyLoad.js")
+$.getScript("/js/Xss.js")
+$.getScript("/js/comment.js")

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lete114.mapper.CategoryMapper">
+    <!--查询全部信息-->
+    <select id="selCategory" resultType="top.lete114.entity.Category">
+        select * from Category
+        <where>
+            <if test="categoryId!=null and categoryId!=0">
+                categoryId=#{id}
+            </if>
+        </where>
+    </select>
+
+    <!--根据id查询-->
+    <select id="CategoryById" resultType="top.lete114.entity.Category">
+        SELECT * FROM Category WHERE categoryId=#{id}
+    </select>
+
+    <select id="findCategoryList" parameterType="java.util.Map" resultType="top.lete114.entity.Category">
+        select * from category
+        ORDER BY categoryId
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <select id="getTotalCategories" parameterType="java.util.Map" resultType="int">
+        select count(*)  from category
+    </select>
+
+    <!--删除分类-->
+    <delete id="deleteBatch">
+        delete from category where categoryId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="modifyCategorys">
+        update category
+        <set>
+            <if test="categoryName != null">
+                categoryName = #{categoryName},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime},
+            </if>
+        </set>
+        where categoryId = #{categoryId}
+    </update>
+
+    <!--添加-->
+    <insert id="insertCategory">
+        insert into Category(categoryName,createTime)
+        values (#{categoryName},#{createTime})
+    </insert>
+    <!--查询是否存在-->
+    <select id="selectByCategoryName" parameterType="String" resultType="top.lete114.entity.Category">
+        select *,count(1) count from Category where categoryName=#{name}
+    </select>
+
+    <!--根据分类名查询-->
+    <select id="selectByBlogCategoryName" parameterType="String" resultType="Blog">
+        select * from blog where blogCategoryName=#{name}
+    </select>
+
+</mapper>

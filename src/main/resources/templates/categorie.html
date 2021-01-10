@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{public::head('分类 | '+${user.getAuthor()},${user.getDescription()},${user.getAuthor()},${user.getFavicon()},${user.getAvatar()})}"></head>
+<body>
+<div th:replace="~{public::mobile(${user.getAvatar()},${blogCount},${tagCount},${categoriesCount})}"></div>
+<div id="body-wrap">
+    <div id="web_bg" th:style="'background:'+${user.getBackground()}+';background-attachment: local; background-position: center; -webkit-background-size: cover; -moz-background-size: cover; background-size: cover; background-repeat: no-repeat;'" data-type="photo"></div>
+    <header th:replace="~{public::page-header(${user.getTitle()})}"></header>
+    <main class="layout_page hide-aside" id="content-inner">
+        <div class="category-content">
+            <div class="category-lists">
+                <div class="category__title">分类 - <span class="category__amount" th:text="${categoriesCount}"></span></div>
+                <div>
+                    <ul class="category-list">
+                        <li class="category-list-item" th:each="list,count:${cat}" >
+                            <a class="category-list-link"
+                               th:href="'/categories/'+${list.getCategoryName()}" th:text="${list.getCategoryName()}"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{public::footer(${date},${user.getAuthor()},${user.getIcp()})}"></footer>
+</div>
+<th:block th:replace="~{public::section}"></th:block>
+<div th:replace="~{public::search}"></div>
+<div id="search-mask"></div>
+<th:block th:replace="~{public::pjax}"></th:block>
+</body>
+</html>

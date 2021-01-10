@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{public::head('标签 | '+${user.getAuthor()},${user.getDescription()},${user.getAuthor()},${user.getFavicon()},${user.getAvatar()})}"></head>
+<body>
+<div th:replace="~{public::mobile(${user.getAvatar()},${blogCount},${tagCount},${categoriesCount})}"></div>
+<div id="body-wrap">
+        <div id="web_bg" th:style="'background:'+${user.getBackground()}+';background-attachment: local; background-position: center; -webkit-background-size: cover; -moz-background-size: cover; background-size: cover; background-repeat: no-repeat;'" data-type="photo"></div>
+    <header th:replace="~{public::page-header(${user.getTitle()})}" class="post-bg" id="page-header"></header>
+    <main class="layout_page hide-aside" id="content-inner">
+        <div class="tag-cloud">
+            <div class="tag-cloud__title">标签 - <span class="tag-cloud__amount" th:text="${tagCount}"></span></div>
+            <div class="tag-cloud-tags">
+                <th:block th:each="tag:${tags}">
+                    <a th:href="'/tags/'+${tag.getTagName()}+'/'"
+                       th:text="${tag.getTagName()}"
+                       th:style="'font-size:'+
+                               ${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*11+10),1,0)}+'px;color:rgb('+
+                               ${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*255),1,0)}+','+
+                               ${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*255),1,0)}+','+
+                               ${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*255),1,0)}+')'" ></a>
+                </th:block>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{public::footer(${date},${user.getAuthor()},${user.getIcp()})}"></footer>
+</div>
+<th:block th:replace="~{public::section}"></th:block>
+<div th:replace="~{public::search}"></div>
+<div id="search-mask"></div>
+<th:block th:replace="~{public::pjax}"></th:block>
+</body>
+</html>

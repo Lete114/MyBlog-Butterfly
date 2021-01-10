@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/public::head(${user.getAuthor()}+' | 发布博客',${user.getFavicon()})}">
+</head>
+<body class="hold-transition sidebar-mini">
+<link href="/admin/plugins/editormd/css/editormd.css" rel="stylesheet"/>
+<div class="wrapper">
+    <!-- 引入页面头header-fragment -->
+    <nav th:replace="~{admin/public::header-nav}"></nav>
+    <!-- 引入工具栏sidebar-fragment -->
+    <aside th:replace="~{admin/public::aside(${user.getAvatar()},${user.getAuthor()},8)}"></aside>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" id="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">个人信息</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- 几个基础的输入框，名称、分类等输入框 -->
+                        <form id="blogForm" action="/admin/saveAbout">
+                            <div class="form-group" id="about-editormd">
+                                <textarea style="display: none" th:text="${user.getAbout()}"></textarea>
+                            </div>
+
+                            <div class="form-group">
+
+                            </div>
+                        </form>
+                        <button class="btn btn-info float-right"
+                                style="margin-left: 5px;"
+                                id="save">保存
+                        </button>
+                    </div>
+
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- 引入页脚footer-fragment -->
+    <footer th:replace="~{admin/public::footer(${date},${user.getAuthor()})}"></footer>
+</div>
+<!-- jQuery -->
+<script src="/admin/plugins/jquery/jquery.min.js"></script>
+<!-- editor.md -->
+<script src="/admin/plugins/editormd/editormd.min.js"></script>
+<!-- sweetalert -->
+<script src="/admin/plugins/sweetalert/sweetalert.min.js"></script>
+<script>
+    var editor
+    $(function() {
+        editor = editormd("about-editormd", {
+            width: "100%",
+            height: 640,
+            toolbarAutoFixed: false,
+            syncScrolling: "single",
+            htmlDecode : "style,script,iframe|on*",
+            emoji : true,
+            path: "/admin/plugins/editormd/lib/"
+        });
+    });
+
+    $('#save').click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/admin/saveAbout",
+            data: {
+                Content: editor.getMarkdown()
+            },
+            success: function (result) {
+                if (result == "success") {
+                    swal("保存成功", {
+                        icon: 'success'
+                    }).then(function () {
+                        window.location.href = "/admin/about";
+                    })
+                } else {
+                    swal("保存失败", {
+                        icon: "error"
+                    });
+                }
+                ;
+            },
+            error: function () {
+                swal("操作失败", {
+                    icon: "error"
+                });
+            }
+        });
+    })
+
+</script>
+</body>
+</html>

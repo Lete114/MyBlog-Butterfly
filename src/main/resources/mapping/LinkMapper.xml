@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lete114.mapper.LinkMapper">
+
+    <select id="linkRank" resultType="top.lete114.entity.Link">
+        SELECT * FROM link
+        ORDER BY linkRank
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="top.lete114.entity.Link">
+        select *
+        from link
+        where linkId = #{linkId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from link
+    where linkId = #{linkId,jdbcType=INTEGER}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from link where linkId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findLinkList" parameterType="Map" resultType="top.lete114.entity.Link">
+        select *
+        from link
+        order by linkId
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <select id="getTotalLinks" parameterType="Map" resultType="int">
+        select count(1)  from link
+    </select>
+
+    <insert id="insert" parameterType="top.lete114.entity.Link">
+    insert into link (linkId, avatar, linkName,
+      linkUrl, linkDescription, createTime,linkRank)
+    values (#{linkId}, #{avatar}, #{linkName},
+      #{linkUrl}, #{linkDescription}, #{createTime},#{linkRank})
+    </insert>
+    <insert id="insertSelective" parameterType="top.lete114.entity.Link">
+        insert into link
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="linkId != null">
+                linkId,
+            </if>
+            <if test="avatar != null">
+                avatar,
+            </if>
+            <if test="linkName != null">
+                linkName,
+            </if>
+            <if test="linkUrl != null">
+                linkUrl,
+            </if>
+            <if test="linkDescription != null">
+                linkDescription,
+            </if>
+            <if test="linkRank != null">
+                linkRank,
+            </if>
+            <if test="createTime != null">
+                createTime,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="linkId != null">
+                #{linkId,jdbcType=INTEGER},
+            </if>
+            <if test="avatar != null">
+                #{avatar},
+            </if>
+            <if test="linkName != null">
+                #{linkName,jdbcType=VARCHAR},
+            </if>
+            <if test="linkUrl != null">
+                #{linkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="linkDescription != null">
+                #{linkDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="linkRank != null">
+                #{linkRank,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="top.lete114.entity.Link">
+        update link
+        <set>
+            <if test="avatar != null">
+                avatar = #{avatar},
+            </if>
+            <if test="linkName != null">
+                linkName = #{linkName,jdbcType=VARCHAR},
+            </if>
+            <if test="linkUrl != null">
+                linkUrl = #{linkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="linkDescription != null">
+                linkDescription = #{linkDescription,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where linkId = #{linkId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="top.lete114.entity.Link">
+    update link
+    set avatar = #{avatar},
+      linkName = #{linkName,jdbcType=VARCHAR},
+      linkUrl = #{linkUrl,jdbcType=VARCHAR},
+      linkDescription = #{linkDescription,jdbcType=VARCHAR},
+      linkRank = #{linkRank,jdbcType=VARCHAR}
+    where linkId = #{linkId,jdbcType=INTEGER}
+  </update>
+</mapper>

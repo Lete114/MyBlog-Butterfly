@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<!--head-->
+<head th:fragment="head(title,desc,author,icon,avatar)">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title th:text="${title}"></title>
+    <meta name="description" th:content="${desc}" />
+    <meta name="author" th:content="${author}" />
+    <meta name="copyright" th:content="${author}" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="shortcut icon" th:href="${icon}" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" th:content="${title}" />
+    <meta property="og:site_name" th:content="${title}" />
+    <meta property="og:description" th:content="${desc}" />
+    <meta property="og:image" th:content="${avatar}" />
+    <link rel="stylesheet" href="/css/CodeBlock.css" />
+    <script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<script>var activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+    }
+}
+var activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+    }
+}
+
+var getCookies = function (name) {
+    const value = `; ${document.cookie}`
+    const parts = value.split(`; ${name}=`)
+    if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+    var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+        if (isLightMode) activateLightMode()
+        else if (isDarkMode) activateDarkMode()
+        else if (isNotSpecified || hasNoSupport) {
+            var now = new Date()
+            var hour = now.getHours()
+            var isNight = hour <= 6 || hour >= 18
+            isNight ? activateDarkMode() : activateLightMode()
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+            if (Cookies.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+            }
+        })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+} else if (autoChangeMode === '2') {
+    now = new Date()
+    hour = now.getHours()
+    isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+} else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+}</script>
+<link rel="stylesheet" href="/css/index.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" />
+<script>var GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+    translate: undefined,
+    noticeOutdate: undefined,
+    copy: {
+        success: '复制成功',
+        error: '复制错误',
+        noSupport: '浏览器不支持'
+    },
+    bookmark: {
+        message_prev: '按',
+        message_next: '键将本页加入书签'
+    },
+    runtime_unit: '天',
+    runtime: true,
+    copyright: undefined,
+    ClickShowText: {"text":"富强,民主,文明,和谐,自由,平等,公正,法治,爱国,敬业,友善,诚信","fontSize":"20px"},
+    medium_zoom: false,
+    fancybox: true,
+    Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#e58a8a","bgDark":"#e58a8a","position":"top-right"},
+    justifiedGallery: {
+        js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+        css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    baiduPush: true,
+    highlightCopy: true,
+    highlightLang: true,
+    isPhotoFigcaption: false,
+    islazyload: true,
+    isanchor: true
+}</script>
+<script id="config_change">var GLOBAL_CONFIG_SITE = {
+    isPost: true,
+    isHome: false,
+    isHighlightShrink: false,
+    isSidebar: true,
+    postUpdate: '2020-07-17 22:33:40'
+}</script>
+<noscript>
+    <style>
+        #nav {
+            opacity: 1
+        }
+        .justified-gallery img {
+            opacity: 1
+        }
+    </style>
+</noscript>
+</head>
+
+<!--首页头部-->
+<header th:fragment="header(title)" class="full_page" id="page-header">
+    <nav id="nav" >
+            <span class="pull-left" id="blog_name">
+                <a class="blog_title" id="site-name" href="/" th:text="${title}"></a>
+            </span>
+        <span class="pull-right menus">
+              <div id="search_button">
+               <a class="site-page social-icon search">
+                   <i class="fas fa-search fa-fw"></i>
+                   <span> 搜索</span>
+               </a>
+              </div>
+              <div class="menus_items">
+                   <div class="menus_item">
+                    <a class="site-page" href="/">
+                        <i class="fa-fw fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/tags">
+                        <i class="fa-fw fa fa-tags"></i>
+                        <span>标签</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/archive">
+                        <i class="fa-fw fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/categories">
+                        <i class="fa-fw fa fa-folder-open"></i>
+                        <span>分类</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/link">
+                        <i class="fa-fw fa fa-link"></i>
+                        <span>友链</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/about">
+                        <i class="fa-fw fa fa-heart"></i>
+                        <span>关于</span>
+                    </a>
+                   </div>
+
+              </div>
+                <span class="toggle-menu close">
+                    <a class="site-page">
+                        <i class="fas fa-bars fa-fw"></i>
+                    </a>
+                </span>
+            </span>
+    </nav>
+    <div id="site-info">
+        <h1 id="site_title" th:text="${title}"></h1>
+        <div id="site_subtitle">
+            <span id="subtitle"></span>
+        </div>
+        <div id="site_social_icons">
+            <a class="social-icon" href="https://github.com/lete114" target="_blank" title="Github"><i class="fab fa-github" style="color: #000"></i></a>
+            <a class="social-icon" href="mailto:lete@lete114.top" target="_blank" title="Email"><i class="fa fa-envelope" style="color:#000;"></i></a>
+        </div>
+    </div>
+    <div id="scroll_down">
+        <i class="fas fa-angle-down scroll-down-effects"></i>
+    </div>
+</header>
+<!--手机导航栏(含侧边栏)-->
+<div id="mobile-sidebar" th:fragment="mobile(avatar,blogCount,tagCount,categoriesCount)">
+    <div id="menu_mask"></div>
+    <div id="mobile-sidebar-menus">
+        <div class="mobile_author_icon">
+            <img class="avatar-img" th:data-lazy-src="${avatar}"
+                 alt="avatar"/></div>
+        <div class="mobile_post_data">
+            <div class="mobile_data_item is-center">
+                <div class="mobile_data_link"><a href="/archive/">
+                    <div class="headline">文章</div>
+                    <div class="length_num" th:text="${blogCount}"></div>
+                </a></div>
+            </div>
+            <div class="mobile_data_item is-center">
+                <div class="mobile_data_link"><a href="/tags/">
+                    <div class="headline">标签</div>
+                    <div class="length_num" th:text="${tagCount}"></div>
+                </a></div>
+            </div>
+            <div class="mobile_data_item is-center">
+                <div class="mobile_data_link"><a href="/categories/">
+                    <div class="headline">分类</div>
+                    <div class="length_num" th:text="${categoriesCount}"></div>
+                </a></div>
+            </div>
+        </div>
+        <hr/>
+        <div class="menus_items" >
+            <div class="menus_item">
+                <a class="site-page" href="/">
+                    <i class="fa-fw fa fa-home"></i>
+                    <span>首页</span>
+                </a>
+            </div>
+            <div class="menus_item">
+                <a class="site-page" href="/tags">
+                    <i class="fa-fw fa fa-tags"></i>
+                    <span>标签</span>
+                </a>
+            </div>
+            <div class="menus_item">
+                <a class="site-page" href="/archive">
+                    <i class="fa-fw fa fa-archive"></i>
+                    <span>归档</span>
+                </a>
+            </div>
+            <div class="menus_item">
+                <a class="site-page" href="/categories">
+                    <i class="fa-fw fa fa-folder-open"></i>
+                    <span>分类</span>
+                </a>
+            </div>
+            <div class="menus_item">
+                <a class="site-page" href="/link">
+                    <i class="fa-fw fa fa-link"></i>
+                    <span>友链</span>
+                </a>
+            </div>
+            <div class="menus_item">
+                <a class="site-page" href="/about">
+                    <i class="fa-fw fa fa-heart"></i>
+                    <span>关于</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--post-nav 头部导航栏-->
+<header th:fragment="page-header(title)" class="post-bg" id="page-header">
+    <nav id="nav">
+            <span class="pull-left" id="blog_name">
+                <a class="blog_title" id="site-name" href="/" th:text="${title}"></a>
+            </span>
+        <span class="pull-right menus">
+              <div id="search_button">
+               <a class="site-page social-icon search">
+                   <i class="fas fa-search fa-fw"></i>
+                   <span> 搜索</span>
+               </a>
+              </div>
+              <div class="menus_items">
+                   <div class="menus_item">
+                    <a class="site-page" href="/">
+                        <i class="fa-fw fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/tags">
+                        <i class="fa-fw fa fa-tags"></i>
+                        <span>标签</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/archive">
+                        <i class="fa-fw fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/categories">
+                        <i class="fa-fw fa fa-folder-open"></i>
+                        <span>分类</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/link">
+                        <i class="fa-fw fa fa-link"></i>
+                        <span>友链</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/about">
+                        <i class="fa-fw fa fa-heart"></i>
+                        <span>关于</span>
+                    </a>
+                   </div>
+
+              </div>
+                <span class="toggle-menu close">
+                    <a class="site-page">
+                        <i class="fas fa-bars fa-fw"></i>
+                    </a>
+                </span>
+            </span>
+    </nav>
+</header>
+<!--nav-->
+<nav id="nav" th:fragment="nav(title)">
+            <span class="pull-left" id="blog_name">
+                <a class="blog_title" id="site-name" href="/" th:text="${title}"></a>
+            </span>
+    <span class="pull-right menus">
+              <div id="search_button">
+               <a class="site-page social-icon search">
+                   <i class="fas fa-search fa-fw"></i>
+                   <span> 搜索</span>
+               </a>
+              </div>
+              <div class="menus_items">
+                   <div class="menus_item">
+                    <a class="site-page" href="/">
+                        <i class="fa-fw fa fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/tags">
+                        <i class="fa-fw fa fa-tags"></i>
+                        <span>标签</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/archive">
+                        <i class="fa-fw fa fa-archive"></i>
+                        <span>归档</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/categories">
+                        <i class="fa-fw fa fa-folder-open"></i>
+                        <span>分类</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/link">
+                        <i class="fa-fw fa fa-link"></i>
+                        <span>友链</span>
+                    </a>
+                   </div>
+                  <div class="menus_item">
+                    <a class="site-page" href="/about">
+                        <i class="fa-fw fa fa-heart"></i>
+                        <span>关于</span>
+                    </a>
+                   </div>
+
+              </div>
+                <span class="toggle-menu close">
+                    <a class="site-page">
+                        <i class="fas fa-bars fa-fw"></i>
+                    </a>
+                </span>
+            </span>
+</nav>
+
+<!--侧边回到顶部--部分-->
+<section id="rightside" th:fragment="section">
+    <div id="rightside-config-hide">
+        <button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button>
+    </div>
+    <div id="rightside-config-show">
+        <button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button>
+        <button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button>
+        <script>
+            $("#go-up").click(function () {
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+            })
+        </script>
+    </div>
+</section>
+
+<!--页脚-->
+<footer id="footer" data-type="color" th:fragment="footer(date,author,icp)">
+    <div id="footer-wrap">
+        <div class="copyright">
+            &copy;
+            <span th:text="${date}"></span>
+            <i style="color:#FF6A6A;animation: announ_animation 0.8s linear infinite;" class="fa fa-heartbeat"></i>
+            <span th:text="${author}"></span>
+        </div>
+        <div class="framework-info">
+            <span>Author </span>
+            <a target="_blank" rel="noopener" href="https://github.com/lete114"><span>Lete乐特</span></a>
+            <span class="footer-separator">|</span>
+            <span>Theme </span>
+            <a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a>
+        </div>
+        <div class="icp" th:if="${icp}!=''"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="noopener"><img class="icp-icon" src="/img/icp.png"><span th:text="${icp}"></span></a></div>
+
+    </div>
+</footer>
+
+<!--搜索-->
+<div th:fragment="search" class="search-dialog" id="local-search">
+    <div class="search-dialog__title" id="local-search-title">
+        本地搜索
+    </div>
+    <div id="local-input-panel">
+        <div id="local-search-input">
+            <div class="local-search-box">
+                <input class="local-search-box--input" id="search" placeholder="搜索文章" type="text" />
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <div id="local-search-results">
+        <div id="local-hits">
+            <div class="search-result-list">
+
+            </div>
+        </div>
+    </div>
+
+    <span class="search-close-button"><i class="fas fa-times"></i></span>
+</div>
+
+<!--非首页js、css、pjax-->
+<th:block th:fragment="pjax">
+    <script src="https://cdn.jsdelivr.net/gh/lete114/lete114.github.io@latest/js/utils.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script>
+    <script>
+        function panguFn() {
+            if (typeof pangu === 'object') pangu.spacingElementById('content-inner')
+            else {
+                $.getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js', () => {
+                    pangu.spacingElementById('content-inner')
+                })
+            }
+        }
+
+        function panguInit() {
+            if (false) {
+                GLOBAL_CONFIG_SITE.isPost && panguFn()
+            } else {
+                panguFn()
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', panguFn)
+    </script>
+    <script src="/js/search/local-search.js"></script>
+
+    <div class="js-pjax">
+        <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        <script async="" src="/js/ProgressBar.js"></script>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
+    <script>var pjax = new Pjax({
+        elements: 'a:not([target="_blank"])',
+        selectors: [
+            'title',
+            'meta[name=description]',
+            '#config_change',
+            '#body-wrap',
+            '#rightside-config-hide',
+            '#rightside-config-show',
+            '.js-pjax'
+        ],
+        cacheBust: false,
+    })
+
+    document.addEventListener('pjax:complete', function () {
+        refreshFn()
+
+        $('script[data-pjax]').each(function () {
+            $(this).parent().append($(this).remove())
+        })
+
+        GLOBAL_CONFIG.islazyload && lazyLoadInstance.update()
+
+        typeof chatBtnFn === 'function' && chatBtnFn()
+        typeof panguInit === 'function' && panguInit()
+
+        NProgress.done();
+    })
+
+    document.addEventListener('pjax:send', function () {
+        NProgress.start();
+        typeof typed === 'object' && typed.destroy()
+
+        $(window).off('scroll')
+
+        //reset readmode
+        $('body').hasClass('read-mode') && $('body').removeClass('read-mode')
+
+        //reset font-size
+        $('body').css('font-size') !== originFontSize && $('body').css('font-size', parseFloat(originFontSize))
+    })
+
+    </script>
+</th:block>
+
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{public::head('关于我 | '+${user.getAuthor()},${user.getDescription()},${user.getAuthor()},${user.getFavicon()},${user.getAvatar()})}"></head>
+<body>
+<div th:replace="~{public::mobile(${user.getAvatar()},${blogCount},${tagCount},${categoriesCount})}"></div>
+<div id="body-wrap">
+    <div id="web_bg" th:style="'background:'+${user.getBackground()}+';background-attachment: local; background-position: center; -webkit-background-size: cover; -moz-background-size: cover; background-size: cover; background-repeat: no-repeat;'" data-type="photo"></div>
+    <header th:replace="~{public::page-header(${user.getTitle()})}" class="post-bg" id="page-header"></header>
+    <main class="layout_page hide-aside" id="content-inner">
+        <div id="page">
+            <div id="article-container">
+                <center><a>
+                    <img
+                        th:data-lazy-src="${user.getAvatar()}"
+                        style="border-radius:50%;width:150px;height:auto" alt="My Avatar"></a></center>
+                <center style="font-size:1.7rem;font-weight:700;background-image:linear-gradient(92deg,#f35626 0,#feab3a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent">
+                    <span th:text="${user.getAuthor()}"></span></center>
+
+                <th:block th:utext="${content}"></th:block>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{public::footer(${date},${user.getAuthor()},${user.getIcp()})}"></footer>
+</div>
+<th:block th:replace="~{public::section}"></th:block>
+<div th:replace="~{public::search}"></div>
+<div id="search-mask"></div>
+<th:block th:replace="~{public::pjax}"></th:block>
+</body>
+</html>

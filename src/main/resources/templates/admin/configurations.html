@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/public::head(${user.getAuthor()}+' | 系统配置',${user.getFavicon()})}">
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <!-- 引入页面头header-fragment -->
+    <nav th:replace="~{admin/public::header-nav}"></nav>
+    <!-- 引入工具栏sidebar-fragment -->
+    <aside th:replace="~{admin/public::aside(${user.getAvatar()},${user.getAuthor()},9)}"></aside>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">站点信息</h3>
+                            </div> <!-- /.card-body -->
+                            <div class="card-body">
+                                <form role="form" id="websiteForm">
+                                    <!-- text input -->
+                                    <div class="form-group">
+                                        <label>站点名称</label>
+                                        <input type="text" class="form-control" id="title"
+                                               name="title"
+                                               placeholder="站点名称" th:value="${user.getTitle()}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>博客背景图片/颜色</label>
+                                        <input type="text" class="form-control" id="siteBackground"
+                                               name="siteBackground"
+                                               placeholder="你只能遵循css的background属性填写" th:value="${user.getBackground()}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>博客运行时间</label>
+                                        <input type="text" class="form-control" id="running_time"
+                                               name="running_time"
+                                               placeholder="博客运行时间"
+                                               th:value="${#dates.format(user.getRunning_time(),'yyyy-MM-dd')}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>favicon.ico</label>
+                                        <input type="text" class="form-control" id="favicon"
+                                               th:value="${user.getFavicon()}"
+                                               name="favicon"
+                                               placeholder="favicon.ico">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>公告</label>
+                                        <textarea style="height: 120px" type="text" class="form-control"
+                                                  id="notice"
+                                                  name="notice"
+                                                  th:text="${user.getNotice()}"
+                                                  placeholder="公告"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>站点描述</label>
+                                        <textarea style="height: 120px" type="text" class="form-control"
+                                               id="description"
+                                               name="description"
+                                               th:text="${user.getDescription()}"
+                                               placeholder="站点描述"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>站点副标题</label>
+                                        <textarea style="height: 120px" type="text" class="form-control"
+                                                  id="subtitle"
+                                                  name="subtitle"
+                                                  th:text="${user.getSubtitle()}"
+                                                  placeholder="多条句子使用引文逗号分隔 "></textarea>
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <button type="button" id="updateWebsiteButton" onsubmit="return false;"
+                                                class="btn btn-danger float-right">确认修改
+                                        </button>
+                                    </div>
+                                </form>
+                            </div><!-- /.card-body -->
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">个人信息</h3>
+                            </div> <!-- /.card-body -->
+                            <div class="card-body">
+                                <form role="form" id="userInfoForm">
+                                    <!-- input states -->
+                                    <div class="form-group">
+                                        <label class="control-label">个人头像</label>
+                                        <input type="text" class="form-control" id="avatar"
+                                               name="avatar" th:value="${user.getAvatar()}"
+                                               placeholder="个人头像">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">个人名称</label>
+                                        <input type="text" class="form-control" id="author"
+                                               name="author" th:value="${user.getAuthor()}"
+                                               placeholder="个人名称">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">个人邮箱</label>
+                                        <input type="email" class="form-control" id="email"
+                                               name="email"
+                                               th:value="${user.getEmail()}"
+                                               placeholder="个人邮箱">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">备案号</label>
+                                        <textarea type="text" class="form-control" id="icp"
+                                               name="icp"
+                                               th:text="${user.getIcp()}"
+                                                  placeholder="备案号"></textarea>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="button" id="updateUserInfoButton" onsubmit="return false;"
+                                                class="btn btn-danger float-right">确认修改
+                                        </button>
+                                    </div>
+                                </form>
+                            </div><!-- /.card-body -->
+                        </div>
+                    </div>
+
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <!-- 引入页脚footer-fragment -->
+    <footer th:replace="~{admin/public::footer(${date},${user.getAuthor()})}"></footer>
+</div>
+<!-- jQuery -->
+<script src="/admin/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/admin/plugins/jQueryUI/jquery-ui.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/admin/dist/js/adminlte.min.js"></script>
+<!-- sweetalert -->
+<script src="/admin/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="/admin/dist/js/configuration.js"></script>
+</body>
+</html>

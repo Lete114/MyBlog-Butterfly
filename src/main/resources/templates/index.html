@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{public::head('首页 | '+${user.getTitle()},${user.getDescription()},${user.getAuthor()},${user.getFavicon()},${user.getAvatar()})}"></head>
+<body>
+<div th:replace="~{public::mobile(${user.getAvatar()},${blogCount},${tagCount},${categoriesCount})}"></div>
+<div id="body-wrap">
+    <div id="web_bg" th:style="'background:'+${user.getBackground()}+';background-attachment: local; background-position: center; -webkit-background-size: cover; -moz-background-size: cover; background-size: cover; background-repeat: no-repeat;'" data-type="photo"></div>
+    <header th:replace="public::header(${user.getTitle()})"></header>
+    <main class="layout_page" id="content-inner">
+        <div class="recent-posts" id="recent-posts">
+            <th:block th:each="blog:${pageInfo.list}">
+                <div class="recent-post-item">
+                    <div class="post_cover right_radius">
+                        <a th:href="'/article/'+${blog.getBlogSubUrl()}" th:title="${blog.getBlogTitle()}"> <img class="post_bg" th:src="${blog.getBlogCoverImage()}" onerror="this.onerror=null;this.src='/img/404.jpg'" th:alt="${blog.getBlogTitle()}" /> </a>
+                    </div>
+                    <div class="recent-post-info">
+                        <a class="article-title" name="url" th:href="'/article/'+${blog.getBlogSubUrl()}" th:title="${blog.getBlogTitle()}" th:text="${blog.getBlogTitle()}"></a>
+                        <div class="article-meta-wrap">
+                            <i class="far fa-calendar-alt"></i>
+                            <time class="post-meta__date" th:text="'发布于 '+${#dates.format(blog.getCreateTime(),'yyyy-MM-dd')}" th:title="'Created '+${#dates.format(blog.getCreateTime(),'yyyy-MM-dd')}"> <i class="fa fa-calendar" aria-hidden="true"></i> </time>
+                        </div>
+                        <div class="content" th:text="${blog.getDescription()}">
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+            <nav id="pagination">
+                <div class="pagination">
+                    <a name="pageNum" c
+                       lass="extend prev"
+                       alt="上一页"
+                       th:style="${pageInfo.pageNum}==1?'display: none;':''"
+                       rel="prev"
+                       th:href="@{/(pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:'')}">
+                        <i alt="上一页" class="fa fa-fw fa-chevron-left"></i>
+                    </a>
+                    <a name="pageNum"
+                       th:style="${pageInfo.pageNum}==1?'display: none;':''"
+                       th:class="${pageInfo.pageNum}==${pageInfo.pages}?'page-number':'page-number current'"
+                       th:href="@{/(pageNum=${pageInfo.pageNum}==${pageInfo.pages}?${pageInfo.pageNum}-1:${pageInfo.pageNum})}"
+                       th:text="${pageInfo.pageNum}==${pageInfo.pages}?${pageInfo.pageNum}-1:${pageInfo.pageNum}"></a>
+                    <span class="space" th:text="${pageInfo.pageNum}==1?'':'...'">…</span>
+                    <a name="pageNum"
+                       th:class="${pageInfo.pageNum}==${pageInfo.pages}?'page-number current':'page-number'"
+                       th:href="@{/(pageNum=${pageInfo.pages})}" th:text="${pageInfo.pages}"></a>
+                    <a name="pageNum"
+                       class="extend next"
+                       alt="下一页"
+                       th:style="${pageInfo.pageNum}==${pageInfo.pages}?'display: none;':''"
+                       rel="next"
+                       th:href="@{/(pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">
+                        <i alt="下一页" class="fa fa-fw fa-chevron-right"></i>
+                    </a>
+                </div>
+            </nav>
+        </div>
+        <div class="aside_content" id="aside_content">
+            <div class="card-widget card-info">
+                <div class="card-content">
+                    <div class="card-info-avatar is-center">
+                        <img class="avatar-img" th:src="${user.getAvatar()}" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar" />
+                        <div class="author-info__name" th:text="${user.getAuthor()}"></div>
+                        <div class="author-info__description" th:text="${user.getDescription()}"></div>
+                    </div>
+                    <div class="card-info-data">
+                        <div class="card-info-data-item is-center">
+                            <a href="/archives">
+                                <div class="headline">
+                                    文章
+                                </div>
+                                <div class="length_num" th:text="${blogCount}"></div></a>
+                        </div>
+                        <div class="card-info-data-item is-center">
+                            <a href="/tags">
+                                <div class="headline">
+                                    标签
+                                </div>
+                                <div class="length_num" th:text="${tagCount}"></div></a>
+                        </div>
+                        <div class="card-info-data-item is-center">
+                            <a href="/categories">
+                                <div class="headline">
+                                    分类
+                                </div>
+                                <div class="length_num" th:text="${categoriesCount}"></div></a>
+                        </div>
+                    </div>
+                    <a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lete114"><i class="fab fa-github"></i><span>Follow Me</span></a>
+                    <div class="card-info-social-icons is-center">
+                        <a class="social-icon" href="https://github.com/jerryc127" target="_blank" title="Github"><i class="fab fa-github" aria-hidden="true"></i></a>
+                        <a class="social-icon" th:href="'mailto:'+${user.getEmail()}" target="_blank" title="Email"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-widget card-announcement">
+                <div class="card-content">
+                    <div class="item-headline">
+                        <i class="fas fa-bullhorn card-announcement-animation"></i>
+                        <span>公告</span>
+                    </div>
+                    <div class="announcement_content" th:utext="${user.getNotice()}"></div>
+                </div>
+            </div>
+            <div class="card-widget card-recent-post">
+                <div class="card-content">
+                    <div class="item-headline">
+                        <i class="fas fa-history"></i>
+                        <span>最新文章</span>
+                    </div>
+                    <div class="aside-recent-item">
+                            <th:block th:each="time,itemStat:${timeblog}" th:if="${itemStat.count}<=5" >
+                                <div class="aside-recent-post" >
+                                    <a class="aside-post-cover" th:href="${time.getBlogSubUrl()}" th:title="${time.getBlogTitle()}">
+                                        <img class="aside-post-bg" th:data-lazy-src="${time.getBlogCoverImage()}" th:alt="${time.getBlogTitle()}" />
+                                    </a>
+                                    <div class="aside-post-info">
+                                        <a class="aside-post-title" th:href="${time.getBlogSubUrl()}" th:title="${time.getBlogTitle()}" th:text="${time.getBlogTitle()}"></a>
+                                        <time class="aside-post_meta post-meta-date" th:title="'发表于 '+${#dates.format(time.getCreateTime(),'yyyy-MM-dd')}" th:text="${#dates.format(time.getCreateTime(),'yyyy-MM-dd')}"></time>
+                                    </div>
+                                </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+            <div class="card-widget card-tags">
+                <div class="card-content">
+                    <div class="item-headline">
+                        <i class="fas fa-tags"></i>
+                        <span>标签</span>
+                    </div>
+                    <div class="card-tag-cloud">
+                        <th:block th:each="tag:${tags}">
+                            <a th:href="'/tags/'+${tag.getTagName()}+'/'"
+                               th:text="${tag.getTagName()}"
+                               th:style="'font-size:'+
+                               ${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*11+10),1,0)}+'px;color:rgb('+
+                               ${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*255),1,0)}+','+
+                               ${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*255),1,0)}+','+
+                               ${#numbers.formatDecimal(T(java.lang.Math).floor(T(java.lang.Math).random()*255),1,0)}+')'" ></a>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+            <div class="card-widget card-webinfo">
+                <div class="card-content">
+                    <div class="item-headline">
+                        <i class="fas fa-chart-line"></i>
+                        <span>网站资讯</span>
+                    </div>
+                    <div class="webinfo">
+                        <div class="webinfo-item">
+                            <div class="webinfo-article-name">
+                                文章数目 :
+                            </div>
+                            <div class="webinfo-article-count" th:text="${blogCount}"></div>
+                        </div>
+                        <div class="webinfo-item">
+                            <div class="webinfo-runtime-name">
+                                已运行时间 :
+                            </div>
+                            <div class="webinfo-runtime-count" id="webinfo-runtime-count" th:publish_date="${#dates.format(user.getRunning_time(),'yyyy-MM-dd')}" ></div>
+                        </div>
+                        <div class="webinfo-item">
+                            <div class="webinfo-site-wordcount-name">
+                                本站总字数 :
+                            </div>
+                            <div class="webinfo-site-wordcount">
+                                70.6k
+                            </div>
+                        </div>
+                        <div class="webinfo-item">
+                            <div class="webinfo-site-uv-name">
+                                本站访客数 :
+                            </div>
+                            <div class="webinfo-site-uv-count" id="busuanzi_value_site_uv"></div>
+                        </div>
+                        <div class="webinfo-item">
+                            <div class="webinfo-site-name">
+                                本站总访问量 :
+                            </div>
+                            <div class="webinfo-site-pv-count" id="busuanzi_value_site_pv"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            if($("#subtitle").length) {
+                function subtitleType() {
+                    new Typed("#subtitle", {
+                        strings: '[[${user.getSubtitle()}]]'.split(","),//
+                        startDelay: 300,
+                        typeSpeed: 150,
+                        loop: true,
+                        backSpeed: 50
+                    })
+                }
+
+                $.getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js', subtitleType)
+            }
+            var now = new Date();
+            function createtime() {
+                var grt = new Date("04/15/2020 12:00:00");
+                now.setTime(now.getTime() + 250);
+                days = (now - grt) / 1000 / 60 / 60 / 24;
+                dnum = Math.floor(days);
+                $("#webinfo-runtime-count").text(dnum)
+            }
+            createtime()
+        </script>
+    </main>
+    <footer th:replace="~{public::footer(${date},${user.getAuthor()},${user.getIcp()})}"></footer>
+</div>
+<th:block th:replace="~{public::section}"></th:block>
+<div th:replace="~{public::search}"></div>
+<div id="search-mask"></div>
+<th:block th:replace="~{public::pjax}"></th:block>
+
+</body>
+</html>
